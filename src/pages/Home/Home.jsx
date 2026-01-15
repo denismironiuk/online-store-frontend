@@ -7,6 +7,9 @@ import Slider from '../../components/Slider/Slider'
 import styles from './Home.module.css'
 import { Await, defer, useLoaderData } from 'react-router-dom'
 
+// ОПРЕДЕЛЯЕМ URL ДЛЯ ЗАПРОСОВ (Динамический для K8s или локальный для Vite)
+const apiUrl = window._env_?.VITE_API_URL || import.meta.env.VITE_API_URL || import.meta.env.VITE_API_ENDPOINT;
+
 const slides = [
   {
     image: 'https://images.pexels.com/photos/3951790/pexels-photo-3951790.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -29,11 +32,10 @@ const slides = [
 const Home = () => {
   const { lastAdded, products, error } = useLoaderData();
 
- 
   return (
     <div className={styles.home}>
       <Slider slides={slides} interval={5000} />
-      <Suspense>
+      <Suspense fallback={<p>Loading Featured Products...</p>}>
         <Await resolve={products}>
           {(loadedProducts) => (
             <FeaturedProducts error={error} data={loadedProducts} type="featured" />
@@ -41,7 +43,7 @@ const Home = () => {
         </Await>
       </Suspense>
       <Categories />
-      <Suspense>
+      <Suspense fallback={<p>Loading Last Added...</p>}>
         <Await resolve={lastAdded}>
           {(loadedLastAdded) => (
             <FeaturedProducts error={error} data={loadedLastAdded} type="Last Added" />
@@ -56,7 +58,8 @@ export default Home;
 
 export async function lastAddedProducts() {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/products`);
+    // ИСПОЛЬЗУЕМ apiUrl ВМЕСТО import.meta.env
+    const response = await fetch(`${apiUrl}/products`);
     if (!response.ok) {
       throw new Error(`Failed to fetch last added products. Status: ${response.status}`);
     }
@@ -65,12 +68,14 @@ export async function lastAddedProducts() {
     return resData.products;
   } catch (error) {
     console.error('Error fetching last added products:', error.message);
-    throw error; // Re-throw the error for the component to handle
+    throw error;
   }
 }
+
 export async function loadProducts() {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/products`);
+    // ИСПОЛЬЗУЕМ apiUrl ВМЕСТО import.meta.env
+    const response = await fetch(`${apiUrl}/products`);
     if (!response.ok) {
       throw new Error(`Failed to fetch products. Status: ${response.status}`);
     }
@@ -79,7 +84,7 @@ export async function loadProducts() {
     return resData.products;
   } catch (error) {
     console.error('Error fetching products:', error.message);
-    throw error; // Re-throw the error for the component to handle
+    throw error;
   }
 }
 
@@ -100,7 +105,7 @@ export async function loader() {
     return {
       lastAdded: null,
       products: null,
-      error,
+      error: error.message,
     };
   }
 }

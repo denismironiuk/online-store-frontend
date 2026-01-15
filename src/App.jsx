@@ -18,10 +18,16 @@ import AccountSecurityPage from "./pages/UserAccount/Account/AccountSecurity";
 import OrdersPage from "./pages/UserAccount/Orders/Orders";
 import { checkAuthLoader } from "./components/utils/auth";
 import InvoicePage from "./pages/UserAccount/Orders/Invoice/InvoicePage";
-
 import SearchPage from "./pages/SearchPage/SearchPage";
 import Test from "./components/Test";
-let firstRender = false
+
+let firstRender = false;
+
+// --- ИСПРАВЛЕНИЕ: ОПРЕДЕЛЯЕМ URL ГЛОБАЛЬНО ---
+// 1. window._env_?.VITE_API_URL — придет из Docker/Nginx (Kubernetes)
+// 2. import.meta.env.VITE_API_ENDPOINT — запасной вариант для локальной разработки
+const apiUrl = window._env_?.VITE_API_URL || import.meta.env.VITE_API_URL || import.meta.env.VITE_API_ENDPOINT;
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,8 +40,9 @@ const router = createBrowserRouter([
         element: <Home />,
         loader: products
       },
-      {path:'search',
-      element:<SearchPage/>
+      {
+        path:'search',
+        element:<SearchPage/>
       },
 
       {
@@ -116,20 +123,24 @@ function App() {
         async function retrieveCart() {
           try {
             if (cart) {
-              const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/cart`, {
+              // ИСПОЛЬЗУЕМ apiUrl
+              const response = await fetch(`${apiUrl}/cart`, {
                 method: "GET",
                 headers: authHeader
               })
               const resData = await response.json();
-              const { cart } = resData;
-              const cartItems = cart.items
-              const persistedState = {
-                items: cartItems,
-                totalPrice: resData.cart.totalPrice,
-                totalQuantity: resData.cart.totalQuantity,
-              };
+              
+              if(resData && resData.cart) {
+                  const { cart } = resData;
+                  const cartItems = cart.items
+                  const persistedState = {
+                    items: cartItems,
+                    totalPrice: resData.cart.totalPrice,
+                    totalQuantity: resData.cart.totalQuantity,
+                  };
 
-              dispatch(replace(persistedState))
+                  dispatch(replace(persistedState))
+              }
             }
           } catch (e) {
             console.log('error')
@@ -140,10 +151,9 @@ function App() {
       else {
     
         async function replaceCart(cartItems) {
-
-
           try {
-            const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/cart`, {
+            // ИСПОЛЬЗУЕМ apiUrl
+            const response = await fetch(`${apiUrl}/cart`, {
               method: 'POST',
               headers: authHeader,
               body: JSON.stringify({ cartItems }),
@@ -163,20 +173,13 @@ function App() {
         }
         replaceCart(cart)
       }
-
-
-
-
     }
     firstRender = true
 
   }, [cart, dispatch])
 
   return (
-    
        <RouterProvider router={router} />
-    
-   
   );
 }
 
