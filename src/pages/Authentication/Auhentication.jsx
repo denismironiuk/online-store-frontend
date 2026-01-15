@@ -42,7 +42,7 @@ const [isloading,setIsLoading] =useState(false)
 setIsLoading(true)
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_ENDPOINT}/${mode}`,
+        `${API_URL}/${mode}`,
         {
           method: "POST",
           headers: {

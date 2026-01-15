@@ -20,13 +20,11 @@ import { checkAuthLoader } from "./components/utils/auth";
 import InvoicePage from "./pages/UserAccount/Orders/Invoice/InvoicePage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import Test from "./components/Test";
+import { API_URL } from "./config";
 
 let firstRender = false;
 
-// --- ИСПРАВЛЕНИЕ: ОПРЕДЕЛЯЕМ URL ГЛОБАЛЬНО ---
-// 1. window._env_?.VITE_API_URL — придет из Docker/Nginx (Kubernetes)
-// 2. import.meta.env.VITE_API_ENDPOINT — запасной вариант для локальной разработки
-const apiUrl = window._env_?.VITE_API_URL || import.meta.env.VITE_API_URL || import.meta.env.VITE_API_ENDPOINT;
+
 
 const router = createBrowserRouter([
   {
@@ -153,7 +151,7 @@ function App() {
         async function replaceCart(cartItems) {
           try {
             // ИСПОЛЬЗУЕМ apiUrl
-            const response = await fetch(`${apiUrl}/cart`, {
+            const response = await fetch(`${API_URL}/cart`, {
               method: 'POST',
               headers: authHeader,
               body: JSON.stringify({ cartItems }),

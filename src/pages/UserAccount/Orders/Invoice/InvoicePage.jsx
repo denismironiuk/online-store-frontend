@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+ import React, { useEffect, useState } from 'react'
+ import { API_URL } from '../../../../config'
 import Invoice from '../../../../components/User/ListOrders/CartOrder/Invoice/Invoice'
 import { useParams } from 'react-router-dom'
 
@@ -10,7 +11,7 @@ const[invoice,setInvoice]=useState()
 useEffect(()=>{
   async function getInvoice(){
     try{
-      const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/order/${invoiceId}/invoice`)
+      const response = await fetch(`${API_URL}/order/${invoiceId}/invoice`)
 
       if(response.ok){
         const resData=await response.json()

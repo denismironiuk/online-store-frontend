@@ -3,10 +3,10 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useLoaderData} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../../redux/cartReducer";
-
+import {API_URL} from '../../config'
 const Product = () => {
   const product = useLoaderData();
-console.log(product)
+  console.log(product)
   const dispatch = useDispatch();
 
   return (
@@ -18,20 +18,20 @@ console.log(product)
           </div>
         </div>
         <div className={styles.right}>
-          <h1>{product.name}</h1>
-          <span className={styles.price}>${product.price}</span>
-          <p>{product.description}</p>
+          <h1>{product?.name}</h1>
+          <span className={styles.price}>${product?.price}</span>
+          <p>{product?.description}</p>
 
           <button
             className={styles.add}
             onClick={() =>
               dispatch(
                 addItemToCart({
-                  _id: product._id,
-                  name: product.name,
-                  desc: product.description,
-                  price: +product.price,
-                  img: product.image.secure_url,
+                  _id: product?._id,
+                  name: product?.name,
+                  desc: product?.description,
+                  price: +product?.price,
+                  img: product?.image?.secure_url,
                 })
               )
             }
@@ -47,12 +47,15 @@ console.log(product)
 export default Product;
 
 export async function loader({ request, params }) {
-  
   const prodId = params.id;
+  
+  // ИСПОЛЬЗУЕМ apiUrl ВМЕСТО import.meta.env
   const response = await fetch(
-    `${import.meta.env.VITE_API_ENDPOINT}/product/${prodId}`
+    `${API_URL}/product/${prodId}`
   );
+  
   if (!response.ok) {
+    throw new Error(`Failed to fetch product with id: ${prodId}`);
   } else {
     const resData = await response.json();
     return resData.product;

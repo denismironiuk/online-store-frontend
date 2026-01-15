@@ -1,3 +1,4 @@
+import { API_URL } from "../../../config";
 import React, { useContext, useState } from "react";
 import styles from "./UserAvatar.module.css";
 import Anonimus from "../../../assets/anonymous_3.png";
@@ -21,7 +22,7 @@ const {token,updateUser}=useContext(AuthContext)
     formData.append('image',avatar)
     async function uploadImageProfile(){
       try{
-        const response=await fetch(import.meta.env.VITE_API_ENDPOINT+'/update/image',{
+        const response=await fetch(API_URL+'/update/image',{
   
           headers:{
             'Authorization':'Bearer '+token

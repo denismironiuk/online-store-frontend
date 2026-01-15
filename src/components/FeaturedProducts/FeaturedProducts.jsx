@@ -1,4 +1,4 @@
-import React from "react";
+import { API_URL } from "../../config"; import React from "react";
 import styles from "./FeaturedProducts.module.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination, Navigation } from "swiper/modules";

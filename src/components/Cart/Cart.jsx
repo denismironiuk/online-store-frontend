@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { API_URL } from "../../config"; import React, { useContext, useState } from "react";
 import styles from "./Cart.module.css";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { useSelector } from "react-redux";
@@ -35,7 +35,7 @@ console.log(products)
       
 
         const response = await fetch(
-          import.meta.env.VITE_API_ENDPOINT + "/create-checkout-session",
+          API_URL + "/create-checkout-session",
           {
             method: "POST",
             headers: {

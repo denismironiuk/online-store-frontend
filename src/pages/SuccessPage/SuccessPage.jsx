@@ -1,4 +1,4 @@
-import React from 'react';
+import { API_URL } from "../../config"; import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const fadeAnimation = keyframes`

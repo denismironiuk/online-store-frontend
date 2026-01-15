@@ -1,4 +1,4 @@
-import React from 'react';
+
 import styles from './OrderInfo.module.css';
 
 const OrderInfo = ({ label, value }) => {

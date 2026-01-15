@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import { API_URL } from "../../config"; import React, { useState, createContext } from 'react';
 
 const UserContext = createContext({
   userData: null,

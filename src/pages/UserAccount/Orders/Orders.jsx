@@ -1,3 +1,4 @@
+import { API_URL } from '../../../config'
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 
 import Orders from '../../../components/User/ListOrders/Orders'
@@ -16,7 +17,7 @@ useLayoutEffect(()=>{
       Authorization: `Bearer ${token}`,
     };
     try{
-      const response=await fetch(import.meta.env.VITE_API_ENDPOINT+'/orders',{
+      const response=await fetch(API_URL+'/orders',{
         headers:authHeader,
      
 

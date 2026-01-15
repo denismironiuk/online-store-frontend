@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { API_URL } from "../../config"; import React, { useState, useContext } from "react";
 import AuthContext from "../../context/authContext";
 import styles from "./ModalLoginForm.module.css";
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,7 +15,7 @@ const ModalLoginForm = ({ close ,userData}) => {
     // Perform login logic, e.g., calling an API endpoint
     try {
       // Replace the following code with your actual login logic
-      const response = await fetch(import.meta.env.VITE_API_ENDPOINT+"/update/email", {
+      const response = await fetch(API_URL+"/update/email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

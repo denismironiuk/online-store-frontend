@@ -1,4 +1,4 @@
-import React from "react";
+import { API_URL } from "../../config"; import React from "react";
 import styles from "./Card.module.css";
 import { Link } from "react-router-dom";
 

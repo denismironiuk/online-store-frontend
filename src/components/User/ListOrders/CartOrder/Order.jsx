@@ -1,3 +1,4 @@
+import { API_URL } from "../../../../config";
 import React, { useState } from "react";
 import styles from "./Order.module.css";
 import OrderInfo from "../OrderInfo/OrderInfo";
@@ -12,7 +13,7 @@ const Order = ({order}) => {
     const getOrderPdf = async (invoiceId) => {
         try {
             setIsLoading(true);
-          const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/order/${invoiceId}/pdf`)
+          const response = await fetch(`${API_URL}/order/${invoiceId}/pdf`)
        
          if(response.ok){
             const blob = await response.blob();

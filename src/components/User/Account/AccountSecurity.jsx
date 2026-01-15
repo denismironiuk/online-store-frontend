@@ -1,3 +1,4 @@
+import { API_URL } from "../../../config";
 import React, { useRef, useState } from "react";
 import styles from "./AccountSecurity.module.css";
 import CreateIcon from "@mui/icons-material/Create";
@@ -42,7 +43,7 @@ const AccountSecurity = ({ userData, token, updateUser }) => {
     try {
       // Send a request to the server to change the password
       const response = await fetch(
-        import.meta.env.VITE_API_ENDPOINT + "/update/password",
+        API_URL + "/update/password",
         {
           method: "POST",
           headers: {

@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react'; // Изменили React на react
 
 export default defineConfig({
   plugins: [react()],
@@ -8,8 +8,7 @@ export default defineConfig({
     host: true,
   },
   build: {
-    // УДАЛИ ИЛИ ЗАКОММЕНТИРУЙ ЭТУ СТРОКУ, ЧТОБЫ БЫЛ "dist"
-    // outDir: 'build', 
+    // Папка сборки по умолчанию — dist
   },
   esbuild: {
     loader: "jsx",

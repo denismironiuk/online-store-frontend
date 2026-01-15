@@ -1,4 +1,4 @@
-import React from "react";
+
 import styles from "./UserLogo.module.css";
 
 const UserLogo = ({ content, userData }) => {

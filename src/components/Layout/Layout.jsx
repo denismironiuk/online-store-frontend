@@ -2,6 +2,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import { Outlet, defer, useLoaderData } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
+import { API_URL } from "../../config";
 
 const Layout = () => {
   const { category, products, error } = useLoaderData();
@@ -24,7 +25,7 @@ export default Layout;
 
 export async function catLoader() {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/category`);
+    const response = await fetch(`${API_URL}/category`);
     if (!response.ok) {
       throw new Error(`Failed to fetch categories. Status: ${response.status}`);
     }
@@ -39,7 +40,7 @@ export async function catLoader() {
 
 export async function allProducts() {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/products`);
+    const response = await fetch(`${API_URL}/products`);
     if (!response.ok) {
       throw new Error(`Failed to fetch products. Status: ${response.status}`);
     }

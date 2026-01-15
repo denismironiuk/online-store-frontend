@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { API_URL } from "../../config"; import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import {defer, useLoaderData } from "react-router-dom";
 import List from "../../components/List/List";
@@ -6,6 +6,8 @@ import styles from "./Products.module.css";
 import CategoriesList from "../../components/CategoriesList/CategoriesList";
 import CustomSelect from "../../components/UI/CustomSelect/CustomSelect";
 import FilterListIcon from '@mui/icons-material/FilterList';
+
+
 const Products = () => {
   const { subCat, products } = useLoaderData();
  
@@ -13,8 +15,6 @@ const Products = () => {
   const [selectedSubCats, setSelectedSubCats] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [showCategories, setShowCategories] = useState()
-
- 
 
   const handleChange = 
     (id) => {
@@ -51,11 +51,7 @@ const Products = () => {
   }, [products, sort,selectedSubCats ]);
  
   return (
-   
-   
-    
 <div className={styles.container}>
-
   <div className={styles.filter}>
     <div className={styles.filter__option} onClick={()=>setShowCategories(prev=>!prev)}>
       <FilterListIcon/>
@@ -72,22 +68,20 @@ const Products = () => {
      </div>
     </div>
   </div>
-      
        {filteredProducts && <List products={filteredProducts} />} 
-     
 </div>
-    
-    
   );
 };
 
 export default Products;
 
 export async function loadSubCat(catId) {
+  // ИСПОЛЬЗУЕМ apiUrl ВМЕСТО import.meta.env
   const response = await fetch(
-    `${import.meta.env.VITE_API_ENDPOINT}/subcategories/${catId}`
+    `${API_URL}/subcategories/${catId}`
   );
   if (!response.ok) {
+    throw new Error("Failed to load subcategories");
   } else {
     const resData = await response.json();
     return resData.subcategories;
@@ -95,10 +89,12 @@ export async function loadSubCat(catId) {
 }
 
 export async function loadProducts(catId) {
+  // ИСПОЛЬЗУЕМ apiUrl ВМЕСТО import.meta.env
   const response = await fetch(
-    `${import.meta.env.VITE_API_ENDPOINT}/products/${catId}`
+    `${API_URL}/products/${catId}`
   );
   if (!response.ok) {
+    throw new Error("Failed to load products");
   } else {
     const resData = await response.json();
     return resData.products;

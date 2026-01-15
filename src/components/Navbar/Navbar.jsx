@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { API_URL } from "../../config"; import React, { useContext, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import StoreLogo from '../../assets/EasyStore.webp'
