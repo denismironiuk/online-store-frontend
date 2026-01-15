@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useContext, useState } from "react";
 import { replaceCart } from "../../redux/cartReducer";
 import LoadingPage from "../LoadingPage/LoadingPage";
-import { API_URL } from "../../config";z
+import { API_URL } from "../../config";
 
 const AuhenticationPage = () => {
   const cartData = useSelector((state) => state.cart);
