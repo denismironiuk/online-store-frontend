@@ -1,9 +1,8 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_ENDPOINT;
+// Сначала смотрим в window (для K8s), потом в import.meta (для локальной разработки)
+const API_URL = window._env_?.VITE_API_URL || import.meta.env.VITE_API_URL;
 
-console.log("MY API URL IS:", BASE_URL); // <--- Добавь эту строку!
-
-export const publicRequest = axios.create({
-  baseURL: BASE_URL,
+export const makeRequest = axios.create({
+  baseURL: API_URL,
 });
