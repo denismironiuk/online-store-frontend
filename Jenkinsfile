@@ -29,7 +29,7 @@ pipeline {
     }
 
     environment {
-        // Замени на свое имя пользователя DockerHub
+        // Твой пользователь akarv из прошлых логов
         IMAGE_NAME = "akarv/online-store-frontend" 
         IMAGE_TAG = "v${env.BUILD_NUMBER}"
     }
@@ -68,21 +68,24 @@ pipeline {
             steps {
                 container('node') {
                     script {
-                        // Используем твои креденшелы GitHub PAT
                         withCredentials([usernamePassword(credentialsId: 'github-pat', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
                             sh """
-                            apk add git curl
-                            curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | sh
+                            # 1. Устанавливаем bash, так как скрипт kustomize его требует
+                            apk add --no-cache git curl bash 
+
+                            # 2. Запускаем установку через bash
+                            curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
                             mv kustomize /usr/local/bin/
 
                             git config --global user.email "jenkins@devops.local"
                             git config --global user.name "Jenkins CI"
 
+                            # Клонируем твой GitOps репозиторий
                             git clone https://${GIT_USER}:${GIT_PASS}@github.com/denismironiuk/online-store-gitops.git gitops-repo
                             
                             cd gitops-repo/apps/frontend/overlays/prod
 
-                            # Обновляем тег образа в kustomization.yaml
+                            # 3. Обновляем тег образа
                             kustomize edit set image ${IMAGE_NAME}=${IMAGE_NAME}:${IMAGE_TAG}
 
                             git add kustomization.yaml
