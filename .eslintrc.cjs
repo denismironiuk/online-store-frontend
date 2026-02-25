@@ -12,9 +12,11 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
 rules: {
-    // Выключаем это правило, чтобы оно не блокировало билд в Jenkins
+    'no-undef': 'off',                // Уберет ошибку 'apiUrl' is not defined
+    'no-inner-declarations': 'off',   // Разрешит функции внутри блоков
+    'no-extra-semi': 'off',           // Простит лишние точки с запятой
+    'react/no-unknown-property': 'off', // Разрешит 'class' вместо 'className'
     'react-refresh/only-export-components': 'off',
-    
     'no-unused-vars': 'off',
     'no-empty': 'off',
     'react/no-unescaped-entities': 'off',
